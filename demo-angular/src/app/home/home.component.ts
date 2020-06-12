@@ -1,6 +1,4 @@
 import { Component, OnInit } from "@angular/core";
-import * as application from "tns-core-modules/application";
-declare var android: any;
 declare var com: any;
 
 @Component({
@@ -14,13 +12,9 @@ export class HomeComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        // Init your component properties here.
-        let context = application.android.context;
-        console.log(context);
-        const mainActivity = com.pro100svitlo.nfccardread.MainActivity;
-        const nfcIntent = new android.content.Intent(context, mainActivity.class);
-        console.log(nfcIntent);
-        let act = application.android.startActivity;
-        act.startActivity(nfcIntent);
+        let CardHelper = com.github.devnied.emvnfccard.parser.CardHelper;
+        let cardHelper = new CardHelper();
+        console.log(cardHelper.getCardNumber());
+        console.log(cardHelper.getExpiryDate());
     }
 }

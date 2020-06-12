@@ -9,7 +9,7 @@
 // e.g. project.ext.googlePlayServicesVersion = "15.0.1"
 // create a file named before-plugins.gradle in the current directory and place it there
 dependencies {
-    implementation 'com.github.pro100svitlo:creditCardNfcReader:1.0.3'
+  implementation "org.apache.commons:commons-lang3:3.8.1"
 }
 
 android {

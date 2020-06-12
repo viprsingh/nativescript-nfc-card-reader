@@ -36,10 +36,6 @@
 			</intent-filter>
 		</activity>
 
-		<activity
-			android:name="com.pro100svitlo.nfccardread.MainActivity"
-			android:label="@string/title_activity_kimera"/>
-
 		<activity android:name="com.tns.ErrorReportActivity"/>
 	</application>
 </manifest>

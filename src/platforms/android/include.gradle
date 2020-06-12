@@ -8,5 +8,4 @@ dependencies {
     // Describe plugin native Android dependencies like
 	// implementation "groupName:pluginName:ver" 
     // EXAMPLE: implementation "com.facebook.fresco:fresco:0.9.0+"
-    implementation 'com.github.pro100svitlo:creditCardNfcReader:1.0.3'
 }
