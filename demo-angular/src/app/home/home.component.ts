@@ -1,4 +1,5 @@
 import { Component, OnInit, Provider } from "@angular/core";
+import * as application from "tns-core-modules/application";
 import { NfcTagData } from "nativescript-nfc";
 var Nfc = require("nativescript-nfc").Nfc;
 declare var com: any;
@@ -23,11 +24,14 @@ export class HomeComponent implements OnInit {
             console.log(on ? "Yes" : "No");
         });
 
-        nfc.setOnTagDiscoveredListener((data: NfcTagData) => {
+        nfc.setOnTagDiscoveredListener(() => {
             let CardHelper = com.github.devnied.emvnfccard.parser.CardHelper;
             let cardHelper = new CardHelper();
             let provider = cardHelper.getProvider();
-            provider.setmTagCom(data.id.toString);
+            const activity = application.android.foregroundActivity || application.android.startActivity;
+            let intent = activity.getIntent();
+            let tag = intent.getParcelableExtra(android.nfc.NfcAdapter.EXTRA_TAG) as android.nfc.Tag;
+            provider.setmTagCom(tag);
             cardHelper.parseCard();
             console.log(cardHelper.getCardNumber());
             console.log(cardHelper.getExpiryDate());
