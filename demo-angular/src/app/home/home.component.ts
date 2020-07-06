@@ -15,6 +15,9 @@ export class HomeComponent implements OnInit {
     }
 
     ngOnInit(): void {
+
+    }
+    clickCard(){
         var nfc = new Nfc();
         nfc.available().then((avail) => {
             console.log(avail ? "Yes" : "No");
@@ -31,6 +34,7 @@ export class HomeComponent implements OnInit {
             const activity = application.android.foregroundActivity || application.android.startActivity;
             let intent = activity.getIntent();
             let tag = intent.getParcelableExtra(android.nfc.NfcAdapter.EXTRA_TAG) as android.nfc.Tag;
+            console.log(tag)
             provider.setmTagCom(tag);
             cardHelper.parseCard();
             console.log(cardHelper.getCardNumber());
@@ -38,5 +42,6 @@ export class HomeComponent implements OnInit {
         }).then(() => {
             console.log("OnTagDiscovered listener added");
         });
+
     }
 }

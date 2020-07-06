@@ -25,6 +25,7 @@
 		<activity
 			android:name="com.tns.NativeScriptActivity"
 			android:label="@string/title_activity_kimera"
+			android:usesCleartextTraffic="true"
 			android:configChanges="keyboard|keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout|locale|uiMode"
 			android:theme="@style/LaunchScreenTheme">
 
@@ -42,5 +43,8 @@
 		</activity>
 
 		<activity android:name="com.tns.ErrorReportActivity"/>
+		<uses-library
+				android:name="org.apache.http.legacy"
+				android:required="false" />
 	</application>
 </manifest>
