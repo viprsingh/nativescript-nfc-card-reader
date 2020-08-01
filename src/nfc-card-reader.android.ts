@@ -1,4 +1,7 @@
 import { Common } from './nfc-card-reader.common';
+import * as application from "tns-core-modules/application";
+let Nfc = require("nativescript-nfc").Nfc;
+declare var com: any;
 
 export class NfcCardReader extends Common {
 
@@ -6,22 +9,29 @@ export class NfcCardReader extends Common {
     private expiryDate: string;
 
     public NfcCardReader() {
-        let com: any;
-        const provider = com.pro100svitlo.creditCardNfcReader.utils.Provider;
-        const parser = com.pro100svitlo.creditCardNfcReader.EmvParser;
+        let nfc = new Nfc();
+        nfc.available().then((avail) => {
+            console.log(avail ? "Yes" : "No");
+        });
 
-        // Parse card
-        const cardProvider = new provider();
-        const contactLess: boolean = true;
+        nfc.enabled().then((on) => {
+            console.log(on ? "Yes" : "No");
+        });
 
-        // Create Parser
-        const cardParser = new parser(cardProvider, contactLess);
-
-        // Read card
-        const card = cardParser.readEmvCard();
-
-        this.cardNumber = card.getCardNumber();
-        this.expiryDate = card.getExpiryDate();
+        nfc.setOnTagDiscoveredListener(() => {
+            let CardHelper = com.github.devnied.emvnfccard.parser.CardHelper;
+            let cardHelper = new CardHelper();
+            let provider = cardHelper.getProvider();
+            const activity = application.android.foregroundActivity || application.android.startActivity;
+            let intent = activity.getIntent();
+            let tag = intent.getParcelableExtra(android.nfc.NfcAdapter.EXTRA_TAG) as android.nfc.Tag;
+            provider.setmTagCom(tag);
+            cardHelper.parseCard();
+            this.cardNumber = cardHelper.getCardNumber();
+            this.expiryDate = cardHelper.getExpiryDate();
+        }).then(() => {
+            console.log("OnTagDiscovered listener added");
+        });
     }
 
     getCardNumber(): string {
