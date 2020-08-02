@@ -16,6 +16,7 @@ export class HomeComponent implements OnInit {
     }
     clickCard(){
         let nfcCardReader = new NfcCardReader();
+        nfcCardReader.readCard();
         console.log(nfcCardReader.getCardNumber());
         console.log(nfcCardReader.getExpiryDate());
     }

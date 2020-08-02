@@ -8,7 +8,7 @@ export class NfcCardReader extends Common {
     private cardNumber: string;
     private expiryDate: string;
 
-    public NfcCardReader() {
+    readCard() {
         let nfc = new Nfc();
         nfc.available().then((avail) => {
             console.log(avail ? "Yes" : "No");

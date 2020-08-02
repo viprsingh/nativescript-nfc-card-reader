@@ -1,6 +1,6 @@
 {
     "name": "nativescript-nfc-card-reader",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "description": "NativeScript plugin to read contactless cards.",
     "main": "nfc-card-reader",
     "typings": "index.d.ts",
