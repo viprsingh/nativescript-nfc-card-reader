@@ -1,8 +1,39 @@
-<ActionBar>
-    <Label text="Home"></Label>
+<ActionBar style="background-color: #E12842">
+    <Label text="Rush Pay" style="font-size: 22"></Label>
 </ActionBar>
 
-<GridLayout>
-    <Button text="NFC" (tap)="clickCard()"></Button>
-    <!-- Add your page content here -->
-</GridLayout>
+<DockLayout>
+
+    <StackLayout dock="top" height="90%" >
+        <StackLayout>
+
+            <Label text="+" style="font-size: 54;width: 10%" (tap)="onAddItem()"></Label>
+<!--            <Label [text]="cardNumber" style="font-size: 18;width: 80%" *ngIf="cardNumber"></Label>-->
+<!--            <Label [text]="cardExpiry" style="font-size: 18;width: 80%" *ngIf="cardExpiry"></Label>-->
+            <Button text="NFC" (tap)="clickCard()"></Button>
+            <Label [text]="cardNumber" style="width:50%"></Label>
+
+
+            <!-- Add your page content here -->
+
+            <StackLayout *ngIf="addItem">
+                <StackLayout Orietntation="horizontal">
+                    <TextField hint="description..." style="width:60%;height:40" [(ngModel)]="itemDesc"></TextField>
+                    <TextField hint="amount..." style="width:60%;height:40" ></TextField>
+                    <Button text="Add" (tap)="addItemToObject(itemDesc)" style="width:50%;font-size: 22"></Button>
+                </StackLayout>
+            </StackLayout>
+
+
+        </StackLayout>
+    </StackLayout>
+
+    <StackLayout dock="bottom" height="10%"  style="background-color: #422039">
+        <Label text="" style="height: 20%"></Label>
+        <Label text="Charge $0.00" style="color: white;width: 50%;font-size: 26" *ngIf="totalAmount==0"></Label>
+        <Label [text]="'Charge $'+totalAmount" style="color: white;width: 50%;font-size: 26" *ngIf="totalAmount!=0"></Label>
+    </StackLayout>
+
+</DockLayout>
+
+
