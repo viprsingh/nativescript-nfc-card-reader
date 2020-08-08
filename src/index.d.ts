@@ -4,7 +4,8 @@ export declare class NfcCardReader extends Common {s
   // or..
   // take the ios or android .d.ts files and copy/paste them here
   constructor();
-  readCard();
+  readCard()
   getCardNumber(): string;
   getExpiryDate(): string;
+  closeListener()
 }

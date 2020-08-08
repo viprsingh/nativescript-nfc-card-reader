@@ -5,41 +5,62 @@ declare var com: any;
 
 export class NfcCardReader extends Common {
 
-    private cardNumber: string;
-    private expiryDate: string;
+    private cardNumber: string = "";
+    private expiryDate: string = "";
 
-    readCard() {
+ async readCard() {
+
+        var a = false;
+        var tag
         let nfc = new Nfc();
-        nfc.available().then((avail) => {
-            console.log(avail ? "Yes" : "No");
-        });
+        var promise
+        nfc.available().then((avail) => {})
+        nfc.enabled().then( (on) => {
 
-        nfc.enabled().then((on) => {
-            console.log(on ? "Yes" : "No");
-        });
+           nfc.setOnTagDiscoveredListener(() => {
+                const activity = application.android.foregroundActivity || application.android.startActivity;
+                let intent = activity.getIntent();
+                tag = intent.getParcelableExtra(android.nfc.NfcAdapter.EXTRA_TAG) as android.nfc.Tag;
+                let CardHelper = com.github.devnied.emvnfccard.parser.CardHelper;
+                let cardHelper = new CardHelper();
+                let provider = cardHelper.getProvider();
+                try{
+                    provider.setmTagCom(tag);
+                    cardHelper.parseCard();
+                    this.cardNumber = cardHelper.getCardNumber()
+                    this.expiryDate = cardHelper.getExiryDate();
+                }
+                catch{
 
-        nfc.setOnTagDiscoveredListener(() => {
-            let CardHelper = com.github.devnied.emvnfccard.parser.CardHelper;
-            let cardHelper = new CardHelper();
-            let provider = cardHelper.getProvider();
-            const activity = application.android.foregroundActivity || application.android.startActivity;
-            let intent = activity.getIntent();
-            let tag = intent.getParcelableExtra(android.nfc.NfcAdapter.EXTRA_TAG) as android.nfc.Tag;
-            provider.setmTagCom(tag);
-            cardHelper.parseCard();
-            this.cardNumber = cardHelper.getCardNumber();
-            this.expiryDate = cardHelper.getExpiryDate();
-        }).then(() => {
-            console.log("OnTagDiscovered listener added");
-        });
+                }
+
+            })
+
+        })
+     await new Promise((resolve, reject) => setTimeout(resolve, 3000));
+        tag=null;
     }
+
+
 
     getCardNumber(): string {
-        return this.cardNumber;
+
+        return this.cardNumber
     }
 
+
     getExpiryDate(): string {
-        return this.expiryDate;
+
+        return this.expiryDate
     }
+
+    closeListener(){
+        let nfc = new Nfc();
+        setTimeout(()=>{
+            nfc.setOnTagDiscoveredListener(null).then()
+        },1000)
+
+    }
+
 
 }
