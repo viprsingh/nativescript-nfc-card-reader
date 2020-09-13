@@ -30,8 +30,10 @@ export class NfcCardReader extends Common {
                     this.cardNumber = cardHelper.getCardNumber()
                     this.expiryDate = cardHelper.getExiryDate();
                 }
-                catch{
-
+                catch(e){
+                    this.cardNumber = "";
+                    this.expiryDate = "";
+                    console.log("unable to read card", e)
                 }
 
             })
